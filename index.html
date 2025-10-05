@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex CAD System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="header">
+        <div class="title">Welcome to Apex CAD</div>
+        <div id="update-countdown" class="countdown hidden"></div>
+        <div id="message-banner" class="message-banner hidden"></div>
+        <div id="time-display" class="time-display"></div>
+    </div>
+
+    <div class="main-container">
+        <div id="initial-dashboard" class="dashboard">
+            <h2>Welcome to Apex CAD</h2>
+            <div class="initial-selection">
+                <button class="dept-button police-btn" onclick="showDashboard('police')">
+                    <i class="fas fa-user-shield"></i> Police
+                </button>
+                <button class="dept-button fire-btn" onclick="showDashboard('fire')">
+                    <i class="fas fa-fire-extinguisher"></i> Fire Department
+                </button>
+                <button class="dept-button admin-btn" onclick="showDashboard('admin-pass')">
+                    <i class="fas fa-user-tie"></i> Administrator
+                </button>
+            </div>
+        </div>
+
+        <div id="admin-pass-dashboard" class="dashboard hidden">
+            <div class="admin-pass-panel">
+                <h3>Passcode Required</h3>
+                <input type="password" id="admin-passcode" placeholder="Enter Passcode">
+                <button class="action-btn" onclick="checkAdminPasscode()">Submit</button>
+            </div>
+        </div>
+
+        <div id="admin-dashboard" class="dashboard hidden">
+            <button class="return-btn" onclick="showDashboard('initial')">
+                <i class="fas fa-sign-out-alt"></i> Exit Dashboard
+            </button>
+            <h2>Welcome Administrator</h2>
+            <div class="admin-controls">
+                <button class="action-btn" onclick="showUpdateMenu()">Update System</button>
+                <button class="action-btn" onclick="showMessageMenu()">Send Broadcast Message</button>
+                <button class="action-btn" onclick="showDashboard('initial')">Exit Dashboard</button>
+            </div>
+        </div>
+
+        <div id="police-dashboard" class="dashboard hidden">
+            <button class="return-btn" onclick="showDashboard('initial')">
+                <i class="fas fa-arrow-left"></i> Return to Main Menu
+            </button>
+            <button class="clear-all-btn" onclick="clearAll('police')">
+                <i class="fas fa-broom"></i> Clear All
+            </button>
+            <div class="dashboard-content">
+                <div class="left-column">
+                    <div class="content-box call-center-box">
+                        <h3>Main Call Center</h3>
+                        <div id="police-call-time" class="call-time">Time: --:--:-- EST</div>
+                        <div id="police-active-calls" class="active-list">
+                            <div class="call-event">No active calls.</div>
+                        </div>
+                    </div>
+
+                    <div class="content-box create-form">
+                        <h3>Create Call Event</h3>
+                        <div class="input-group">
+                            <input type="text" id="p-call-type" placeholder="Call Type (e.g., MVA, 10-55)">
+                            <input type="text" id="p-address" placeholder="Address">
+                            <input type="text" id="p-call-desc" placeholder="Call Description">
+                            <input type="text" id="p-units-responding" placeholder="Units Responding (e.g., P-1, P-2)">
+                        </div>
+                        <button class="action-btn" onclick="createPoliceCall()">Create Call</button>
+                    </div>
+
+                    <div class="content-box bolo-center-box">
+                        <h3>Bolo Center</h3>
+                        <div id="police-active-bolos" class="active-list">
+                             <div class="bolo-event">No active BOLOs.</div>
+                        </div>
+                    </div>
+
+                    <div class="content-box create-form">
+                        <h3>Create BOLOS</h3>
+                        <div class="input-group">
+                            <input type="text" id="bolo-details" placeholder="BOLO Details (e.g., Vehicle description, suspect)">
+                        </div>
+                        <button class="action-btn" onclick="createBolo()">Create Bolo</button>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="content-box unit-status-box">
+                        <h3>Unit Status</h3>
+                        <div id="police-unit-status" class="active-list">
+                            <div class="unit-status">P-1: Available</div>
+                        </div>
+                    </div>
+
+                    <div class="content-box create-form">
+                        <h3>Create Unit</h3>
+                        <div class="input-group">
+                            <input type="text" id="p-unit-call-sign" placeholder="Unit Call Sign (e.g., P-3)">
+                            <input type="text" id="p-unit-status" placeholder="Set Status (e.g., 10-8, 10-15)">
+                        </div>
+                        <button class="action-btn" onclick="addPoliceUnit()">Add/Update Unit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="fire-dashboard" class="dashboard hidden">
+            <button class="return-btn" onclick="showDashboard('initial')">
+                <i class="fas fa-arrow-left"></i> Return to Main Menu
+            </button>
+            <button class="clear-all-btn" onclick="clearAll('fire')">
+                <i class="fas fa-broom"></i> Clear All
+            </button>
+            <div class="dashboard-content">
+                <div class="left-column">
+                    <div class="content-box call-center-box">
+                        <h3>Main Call Center</h3>
+                        <div id="fire-call-time" class="call-time">Time: --:--:-- EST</div>
+                        <div id="fire-active-calls" class="active-list">
+                            <div class="call-event">No active calls.</div>
+                        </div>
+                    </div>
+
+                    <div class="content-box create-form">
+                        <h3>Create Call Event</h3>
+                        <div class="input-group">
+                            <input type="text" id="f-call-type" placeholder="Call Type (e.g., Structure Fire, MVA)">
+                            <input type="text" id="f-call-desc" placeholder="Call Description">
+                            <input type="text" id="f-crossroads" placeholder="Crossroads">
+                            <input type="text" id="f-rigs-responding" placeholder="Rigs Responding (e.g., E1, L1)">
+                        </div>
+                        <button class="action-btn" onclick="createFireCall()">Create Call</button>
+                    </div>
+
+                    <div class="content-box">
+                        <h3>Scripts</h3>
+                        <div class="scripts-list">
+                            <div class="script-item" onclick="displayScript('paging')">Paging Script</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-box">
+                        <h3>Responding Rigs</h3>
+                        <div id="responding-rigs" class="active-list">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="content-box unit-status-box">
+                        <h3>Unit Status</h3>
+                        <div id="fire-unit-status" class="active-list">
+                            <div class="unit-status">E1: Available</div>
+                        </div>
+                    </div>
+
+                    <div class="content-box create-form">
+                        <h3>Create Unit</h3>
+                        <div class="input-group">
+                            <input type="text" id="f-unit-call-sign" placeholder="Unit Call Sign (e.g., E2)">
+                            <input type="text" id="f-unit-status" placeholder="Set Status (e.g., Available, Responding)">
+                        </div>
+                        <button class="action-btn" onclick="addFireUnit()">Add/Update Unit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="script-overlay" class="script-display" onclick="hideScript()">
+            <div class="script-box">
+                <pre id="script-content"></pre>
+            </div>
+        </div>
+        
+        <div id="update-menu-overlay" class="menu-overlay hidden">
+            <div class="menu-box">
+                <h3>Schedule System Update</h3>
+                <input type="text" id="update-version" placeholder="Update Version (e.g., v1.1)">
+                <input type="number" id="update-duration" placeholder="Duration (minutes)">
+                <div class="menu-buttons">
+                    <button class="action-btn" onclick="startUpdateCountdown()">Submit</button>
+                    <button class="action-btn cancel-btn" onclick="hideUpdateMenu()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="message-menu-overlay" class="menu-overlay hidden">
+            <div class="menu-box">
+                <h3>Send Broadcast Message</h3>
+                <textarea id="broadcast-message" placeholder="Enter message to display for 24 hours..."></textarea>
+                <div class="menu-buttons">
+                    <button class="action-btn" onclick="sendMessageBanner()">Submit</button>
+                    <button class="action-btn cancel-btn" onclick="hideMessageMenu()">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="context-menu" class="context-menu hidden">
+            <div onclick="removeItemFromContext()">Remove Item</div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
