@@ -26,32 +26,14 @@
                 <button class="dept-button fire-btn" onclick="showDashboard('fire')">
                     <i class="fas fa-fire-extinguisher"></i> Fire Department
                 </button>
-                <button class="dept-button admin-btn" onclick="showDashboard('admin-pass')">
-                    <i class="fas fa-user-tie"></i> Administrator
-                </button>
+            </div>
+            
+            <div class="sync-info-container">
+                <div id="version-banner" class="version-banner">2.00V update.</div>
+                <div id="sync-countdown" class="sync-countdown">Syncing in...</div>
             </div>
         </div>
-
-        <div id="admin-pass-dashboard" class="dashboard hidden">
-            <div class="admin-pass-panel">
-                <h3>Passcode Required</h3>
-                <input type="password" id="admin-passcode" placeholder="Enter Passcode">
-                <button class="action-btn" onclick="checkAdminPasscode()">Submit</button>
-            </div>
-        </div>
-
-        <div id="admin-dashboard" class="dashboard hidden">
-            <button class="return-btn" onclick="showDashboard('initial')">
-                <i class="fas fa-sign-out-alt"></i> Exit Dashboard
-            </button>
-            <h2>Welcome Administrator</h2>
-            <div class="admin-controls">
-                <button class="action-btn" onclick="showUpdateMenu()">Update System</button>
-                <button class="action-btn" onclick="showMessageMenu()">Send Broadcast Message</button>
-                <button class="action-btn" onclick="showDashboard('initial')">Exit Dashboard</button>
-            </div>
-        </div>
-
+        
         <div id="police-dashboard" class="dashboard hidden">
             <button class="return-btn" onclick="showDashboard('initial')">
                 <i class="fas fa-arrow-left"></i> Return to Main Menu
@@ -100,7 +82,7 @@
                     <div class="content-box unit-status-box">
                         <h3>Unit Status</h3>
                         <div id="police-unit-status" class="active-list">
-                            <div class="unit-status">P-1: Available</div>
+                            <div class="unit-status">P-1: 10-8 Available</div>
                         </div>
                     </div>
 
@@ -142,7 +124,8 @@
                         <h3>Create Call Event</h3>
                         <div class="input-group">
                             <input type="text" id="f-call-type" placeholder="Call Type (e.g., Structure Fire, MVA)">
-                            <input type="text" id="f-address" placeholder="Address"> <input type="text" id="f-call-desc" placeholder="Call Description">
+                            <input type="text" id="f-address" placeholder="Address"> 
+                            <input type="text" id="f-call-desc" placeholder="Call Description">
                             <input type="text" id="f-crossroads" placeholder="Crossroads">
                             <input type="text" id="f-rigs-responding" placeholder="Rigs Responding (e.g., E1, L1)">
                         </div>
@@ -167,7 +150,7 @@
                     <div class="content-box unit-status-box">
                         <h3>Unit Status</h3>
                         <div id="fire-unit-status" class="active-list">
-                            <div class="unit-status">E1: Available</div>
+                            <div class="unit-status">E1: 10-8 Available</div>
                         </div>
                     </div>
 
@@ -196,12 +179,10 @@
         
         <div id="update-menu-overlay" class="menu-overlay hidden">
             <div class="menu-box">
-                <h3>Schedule System Update</h3>
-                <input type="text" id="update-version" placeholder="Update Version (e.g., v1.1)">
-                <input type="number" id="update-duration" placeholder="Duration (minutes)">
+                <h3>System Notification</h3>
+                <p>Scheduled Maintenance features have been removed for this version.</p>
                 <div class="menu-buttons">
-                    <button class="action-btn" onclick="startUpdateCountdown()">Submit</button>
-                    <button class="action-btn cancel-btn" onclick="hideUpdateMenu()">Cancel</button>
+                    <button class="action-btn cancel-btn" onclick="hideUpdateMenu()">Close</button>
                 </div>
             </div>
         </div>
@@ -218,7 +199,8 @@
         </div>
         
         <div id="context-menu" class="context-menu hidden">
-            <div onclick="removeItemFromContext()">Remove Call</div> </div>
+            <div onclick="removeItemFromContext()">Remove Call</div>
+        </div>
 
     </div>
 
