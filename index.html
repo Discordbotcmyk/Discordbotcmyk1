@@ -1,51 +1,24 @@
 <!DOCTYPE html>
-                        <h3>Create Unit</h3>
-                        <div class="input-group">
-                            <input type="text" id="f-unit-call-sign" placeholder="Unit Call Sign (e.g., E2)">
-                            <input type="text" id="f-unit-status" placeholder="Set Status (e.g., Available, Responding)">
-                        </div>
-                        <button class="action-btn" onclick="addFireUnit()">Add/Update Unit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="countdown" class="timer">10:00</div>
 
-        <div id="script-overlay" class="script-display" onclick="hideScript()">
-            <div class="script-box">
-                <pre id="script-content"></pre>
-            </div>
-        </div>
+        <h1 class="main-title">Under Maintenance</h1>
+        <h2 class="subtitle">Apex CAD is currently under maintenance.</h2>
         
-        <div id="update-menu-overlay" class="menu-overlay hidden">
-            <div class="menu-box">
-                <h3>Schedule System Update</h3>
-                <input type="text" id="update-version" placeholder="Update Version (e.g., v1.1)">
-                <input type="number" id="update-duration" placeholder="Duration (minutes)">
-                <div class="menu-buttons">
-                    <button class="action-btn" onclick="startUpdateCountdown()">Submit</button>
-                    <button class="action-btn cancel-btn" onclick="hideUpdateMenu()">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="message-menu-overlay" class="menu-overlay hidden">
-            <div class="menu-box">
-                <h3>Send Broadcast Message</h3>
-                <textarea id="broadcast-message" placeholder="Enter message to display for 24 hours..."></textarea>
-                <div class="menu-buttons">
-                    <button class="action-btn" onclick="sendMessageBanner()">Submit</button>
-                    <button class="action-btn cancel-btn" onclick="hideMessageMenu()">Cancel</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="context-menu" class="context-menu hidden">
-            <div onclick="removeItemFromContext()">Remove Item</div>
-        </div>
-
+        <p class="message">
+            The time above will indicate when the CAD has been updated. 
+            Once it hits zero, wait **five seconds** before refreshing your page.
+        </p>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
