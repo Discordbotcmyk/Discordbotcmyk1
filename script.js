@@ -1,55 +1,57 @@
-body {
-    font-family: sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const countdownEl = document.getElementById('countdown');
+    const DURATION_MS = 10 * 60 * 1000; // 10 minutes in milliseconds
+    const LOCAL_STORAGE_KEY = 'apexCadMaintenanceEndTime';
 
-.container {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 90%;
-}
+    let endTime;
 
-.timer {
-    font-size: 3em;
-    font-weight: bold;
-    color: #d9534f; /* A strong color for the timer */
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 2px solid #d9534f;
-    border-radius: 5px;
-    display: inline-block;
-}
+    // 1. Check local storage for a previously set end time
+    const storedEndTime = localStorage.getItem(LOCAL_STORAGE_KEY);
+    
+    if (storedEndTime) {
+        // If an end time exists, use it
+        endTime = new Date(parseInt(storedEndTime, 10));
+    } else {
+        // Otherwise, set a new end time (current time + 10 minutes)
+        endTime = new Date().getTime() + DURATION_MS;
+        localStorage.setItem(LOCAL_STORAGE_KEY, endTime);
+    }
 
-.main-title {
-    font-size: 2.5em;
-    color: #5cb85c; /* A green for positive messaging */
-    margin-bottom: 10px;
-}
+    // 2. Main countdown function
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const timeRemaining = endTime - now;
 
-.subtitle {
-    font-size: 1.5em;
-    color: #555;
-    margin-bottom: 20px;
-}
+        if (timeRemaining <= 0) {
+            // Timer has reached zero or passed
+            clearInterval(timerInterval);
+            countdownEl.textContent = "00:00";
+            countdownEl.classList.add('completed');
+            
+            // Wait 5 seconds before enabling a refresh message/action
+            setTimeout(() => {
+                countdownEl.textContent = "Time's Up! Refresh Now.";
+                // Clear the local storage key so a new timer starts next time
+                localStorage.removeItem(LOCAL_STORAGE_KEY);
+            }, 5000); // 5 seconds delay before the final message
 
-.message {
-    font-size: 1em;
-    line-height: 1.5;
-    color: #666;
-}
+            return;
+        }
 
-/* Optional: Style for when the timer hits zero */
-.timer.completed {
-    color: #337ab7;
-    border-color: #337ab7;
-}
+        // Calculate minutes and seconds
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        // Format and display the time (e.g., 09:05)
+        const displayMinutes = String(minutes).padStart(2, '0');
+        const displaySeconds = String(seconds).padStart(2, '0');
+
+        countdownEl.textContent = `${displayMinutes}:${displaySeconds}`;
+    }
+
+    // 3. Start the interval to update the countdown every second
+    const timerInterval = setInterval(updateCountdown, 1000);
+
+    // Initial call to display the time immediately without waiting 1 second
+    updateCountdown();
+});
